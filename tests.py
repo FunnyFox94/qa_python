@@ -1,7 +1,5 @@
 import pytest
 
-from main import BooksCollector
-
 
 class TestBooksCollector:
     @pytest.mark.parametrize(
@@ -42,7 +40,7 @@ class TestBooksCollector:
     def test_get_books_with_specific_genre(self, book_collector, book, genre):
         book_collector.add_new_book(book)
         book_collector.set_book_genre(book, genre)
-        assert book_collector.get_books_with_specific_genre(genre) == ['Гарри Поттер и кубок огня']
+        assert book_collector.get_books_with_specific_genre(genre) == [book]
 
     @pytest.mark.parametrize(
         'book, genre', [
@@ -57,12 +55,12 @@ class TestBooksCollector:
     def test_get_books_genre(self, book_collector, book, genre):
         book_collector.add_new_book(book)
         book_collector.set_book_genre(book, genre)
-        assert book_collector.get_books_genre() == {'Гарри Поттер и кубок огня': 'Фантастика'}
+        assert book_collector.get_books_genre() == {book: genre}
 
     def test_get_books_for_children_positive_result(self, book_collector, book, genre):
         book_collector.add_new_book(book)
         book_collector.set_book_genre(book, genre)
-        assert book_collector.get_books_for_children() == ['Гарри Поттер и кубок огня']
+        assert book_collector.get_books_for_children() == [book]
 
     @pytest.mark.parametrize(
         'book, genre', [
@@ -77,7 +75,7 @@ class TestBooksCollector:
     def test_add_book_in_favorites_positive(self, book_collector, book):
         book_collector.add_new_book(book)
         book_collector.add_book_in_favorites(book)
-        assert book_collector.favorites == ['Гарри Поттер и кубок огня']
+        assert book_collector.favorites == [book]
 
     @pytest.mark.parametrize(
         'books', [['Гарри Поттер и кубок огня', 'Гарри Поттер и кубок огня', 'Гарри Поттер и кубок огня']]
@@ -103,4 +101,4 @@ class TestBooksCollector:
         for i in books:
             book_collector.add_new_book(i)
             book_collector.add_book_in_favorites(i)
-        assert book_collector.get_list_of_favorites_books() == ['Гарри Поттер и кубок огня', 'Пираты карибского моря']
+        assert book_collector.get_list_of_favorites_books() == books
